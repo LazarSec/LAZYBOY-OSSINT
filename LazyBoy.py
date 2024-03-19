@@ -38,21 +38,24 @@ def search_on_social_media(query):
     for country, sites in social_media_sites.items():
         print(f"\033[92mResults from {country}:\033[0m")
         for site in sites:
-            url = f"https://{site.lower()}.com/{query}"
+            url = f"https://{site.lower()}.com/@{query}"  # Tambahkan "@" di depan username
             try:
                 response = requests.get(url)
                 if response.status_code == 200:
                     soup = BeautifulSoup(response.text, 'html.parser')
                     if soup.find_all("div"):
-                        print("\033[92mLink (spam format):\033[0m", f"Click here to view {site}: {url}")
+                        print(f"\033[94mResults from {site}:\033[0m")
+                        for div in soup.find_all("div"):
+                            print(div.text.strip())
+                        print("\033[92mLink:\033[0m", url)  # Link hijau jika hasil ditemukan
                         print()
                     else:
-                        print("\033[91mNo results found on {site}\033[0m")
+                        print(f"\033[91mNo results found on {site}\033[0m")
                         print("\033[91mLink:\033[0m", url)  # Link merah jika tidak ada hasil
                 else:
-                    print(f"\033[91mFailed to fetch data from {site}\033[0m")
+                    print(f"Failed to fetch data from {site}")
             except Exception as e:
-                print(f"\033[91mError: {e}\033[0m")
+                print(f"Error: {e}")
 
 def main_menu():
     clear_screen()
