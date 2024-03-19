@@ -1,6 +1,7 @@
 import os
 import requests
 from bs4 import BeautifulSoup
+import time
 
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -26,19 +27,26 @@ YMMMUP^
     print(lazyboy_logo)
     print("\nLazyBoy OSSINT")
 
-def search_on_social_media(query):
-    social_media_sites = {
-        "USA": ["Twitter", "Facebook", "Instagram", "LinkedIn", "YouTube", "Pinterest", "Reddit", "Tumblr",
-                "Snapchat", "WhatsApp", "TikTok", "Twitch", "Flickr", "Quora"],
-        "India": ["Twitter", "Facebook", "Instagram", "LinkedIn", "Snapchat", "WhatsApp", "TikTok", "Pinterest"],
-        "Indonesia": ["Twitter", "Facebook", "Instagram", "LinkedIn", "Line", "WhatsApp", "TikTok", "Pinterest"],
-        # Anda dapat menambahkan negara dan situs media sosial lain di sini
-    }
+def search_on_social_media_by_username(query):
+    social_media_sites = [
+        "facebook.com", "instagram.com", "twitter.com", "whatsapp.com", "tiktok.com", "reddit.com",
+        "linkedin.com", "pinterest.com", "vk.com", "perselisihan.com", "oke.ru", "zhihu.com",
+        "messenger.com", "line.me", "telegram.org", "peachavocado.com", "snapchat.com", "namu.wiki",
+        "tumblr.com", "ameblo.jp", "pintu berikutnya.com", "weibo.com", "xiaohongshu.com", "heylink.me",
+        "kendur.com", "patreon.com", "kwai.com", "zalo.me", "thread.net", "komikcast.lol", "pinterest.es",
+        "benciblog.com", "atid.me", "slideshare.net", "jurnal langsung.com", "discordapp.com", "pinterest.com.mx",
+        "ssstik.io", "otakudesu.media", "bakusai.com", "pinterest.co.uk", "fb.com", "ptt.cc", "pinterest.fr",
+        "snaptik.app", "zaloapp.com", "dcard.tw", "pinterest.de", "youtubekids.com", "ameba.jp", "xanga.com",
+        "viadeo.com", "twitpic.com", "renren.com", "orkut.com", "odnoklassniki.ru", "newsvine.com",
+        "netlog.com", "mixi.jp", "hi5.com", "getsatisfaction.com", "friendster.com", "friendfeed.com",
+        "github.com", "breachforums.com"  # Menambahkan breach forum ke dalam daftar
+    ]
 
-    for country, sites in social_media_sites.items():
-        print(f"\033[92mResults from {country}:\033[0m")
-        for site in sites:
-            url = f"https://{site.lower()}.com/@{query}"  # Tambahkan "@" di depan username
+    scanned_urls = set()
+
+    for site in social_media_sites:
+        url = f"https://{site}/{query}"
+        if url not in scanned_urls:
             try:
                 response = requests.get(url)
                 if response.status_code == 200:
@@ -54,39 +62,33 @@ def search_on_social_media(query):
                         print("\033[91mLink:\033[0m", url)  # Link merah jika tidak ada hasil
                 else:
                     print(f"Failed to fetch data from {site}")
+                scanned_urls.add(url)
             except Exception as e:
                 print(f"Error: {e}")
+            time.sleep(0.5)  # Delay 0.5 detik untuk setiap spam
 
-def main_menu():
-    clear_screen()
-    print_logo()
-    print("\n=== Main Menu ===")
-    print("1. Search by Username")
-    print("2. Search by Email")
-    print("3. Search on Social Media")
-    print("4. Exit")
+def search_on_social_media_by_number(phone_number):
+    social_media_by_number = [
+        "whatsapp.com", "facebook.com", "instagram.com", "twitter.com", "telegram.org", "snapchat.com",
+        "linkedin.com"  # Menambahkan situs media sosial yang menggunakan nomor telepon
+    ]
 
-def ossint_tool():
-    while True:
-        main_menu()
-        choice = input("Enter your choice: ")
-        if choice == '1':
-            username = input("Enter username: ")
-            search_on_social_media(username)
-            input("\nPress Enter to continue...")
-        elif choice == '2':
-            email = input("Enter email address: ")
-            search_on_social_media(email)
-            input("\nPress Enter to continue...")
-        elif choice == '3':
-            query = input("Enter search query: ")
-            search_on_social_media(query)
-            input("\nPress Enter to continue...")
-        elif choice == '4':
-            print("Exiting...")
-            break
-        else:
-            input("Invalid choice. Press Enter to continue...")
+    scanned_urls = set()
 
-if __name__ == "__main__":
-    ossint_tool()
+    print("\033[92mResults from social media using phone number:\033[0m")
+    for site in social_media_by_number:
+        url = f"https://{site}/{phone_number}"
+        if url not in scanned_urls:
+            try:
+                response = requests.get(url)
+                if response.status_code == 200:
+                    print(f"\033[94mResults from {site}:\033[0m")
+                    print("\033[92mLink:\033[0m", url)  # Link hijau jika hasil ditemukan
+                    print()
+                else:
+                    print(f"\033[91mNo results found on {site}\033[0m")
+                    print("\033[91mLink:\033[0m", url)  # Link merah jika tidak ada hasil
+                scanned_urls.add(url)
+            except Exception as e:
+                print(f"Error: {e}")
+            time.sleep(0.5)  # Delay
