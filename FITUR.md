@@ -1,4 +1,0 @@
-Pencarian berdasarkan username: Anda dapat mencari informasi di berbagai situs media sosial berdasarkan username pengguna.
-Pencarian berdasarkan email: Anda dapat mencari informasi di berbagai situs media sosial berdasarkan alamat email.
-Pencarian di media sosial: Anda dapat melakukan pencarian umum berdasarkan kata kunci di berbagai situs media sosial.
-Pencarian berdasarkan nomor telepon: Anda dapat mencari informasi di situs-situs media sosial yang menggunakan nomor telepon untuk registrasi atau login.Dengan fitur-fitur ini, Anda dapat mengumpulkan informasi dari berbagai sumber secara terbuka untuk mendapatkan pemahaman yang lebih baik tentang seseorang atau entitas tertentu.
